@@ -8,32 +8,32 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { AppService } from './app.service';
+import { UserService } from './user.service';
 import { UserDto } from './dto/user.dto';
 import { ApiTags } from '@nestjs/swagger';
 
 @ApiTags('user')
 @Controller()
-export class AppController {
-  constructor(private readonly appService: AppService) {}
+export class UserController {
+  constructor(private readonly userService: UserService) {}
 
   @Get('/list')
   getUsers() {
-    return this.appService.getUsers();
+    return this.userService.getUsers();
   }
 
   @Post('/add')
   addUsers(@Body() user: any) {
-    return this.appService.addUser(user);
+    return this.userService.addUser(user);
   }
 
   @Delete('/delete/:email')
   deleteUser(@Param('email') email: string) {
-    return this.appService.deleteUser(email);
+    return this.userService.deleteUser(email);
   }
 
   @Put('/update')
   updateUser(@Body() updatedUser: UserDto) {
-    return this.appService.updateUser(updatedUser);
+    return this.userService.updateUser(updatedUser);
   }
 }

@@ -1,15 +1,25 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { users } from './utils/users.util';
+import { users } from '../utils/users.util';
 import { UserDto } from './dto/user.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { UserSchema } from 'src/infra/db/user.schema';
+import { Repository } from 'typeorm';
 
 @Injectable()
-export class AppService {
+export class UserService {
+  constructor(
+    @InjectRepository(UserSchema)
+    private readonly userRepository: Repository<UserSchema>,
+  ) {}
+
   getUsers() {
-    return users;
+    return this.userRepository.find();
   }
 
   addUser(user: UserDto) {
-    users.push(user);
+    this.userRepository.save({
+      ...user,
+    });
 
     return users;
   }
